@@ -71,30 +71,51 @@ class Tree{
 
   delete(value) {
     if(this.isEmpty()) return null
-    let x = this.deleteLoop(this.root, value)
+    let x = this.deleteSearchLoop(this.root, value)
 
     }
 
-  deleteSearchLoop(root, value) {
-    console.log(root)
+  deleteSearchLoop(root, value, prev = null) {
+    console.log(this.root.data)
     console.log(root.data)
     if(root.data === value) {
+      if(this.root.data) {
+       let newTop = this.getSmallestOfRight(root.right, root)
+       this.root.data = newTop.data
+       return console.log(this.root)
+      }
       return console.log("delete me")//add delete func
     }
     else if(value < root.data){
 
       if(root.left === null) return console.log("ow")
 
-      return this.deleteSearchLoop(root.left, value)
+      return this.deleteSearchLoop(root.left, value, root)
     }
     else if(value > root.data){
 
       if(root.right === null) return console.log("ow")
 
-      else return this.deleteSearchLoop(root.right, value)
+      else return this.deleteSearchLoop(root.right, value, root)
     }
   }  
 
+  //get lowest value on right side for replacing Top root
+  getSmallestOfRight(root, prev){
+    console.log(root)
+   if (!root.left){
+      if(root.right && prev){
+        console.log(prev)
+        prev.left = root.right
+      }
+      return root
+    }
+    return this.getSmallestOfRight(root.left, root)
+  }
+
+  deleteNode(root){
+  
+  }
 
 }
 
@@ -151,7 +172,7 @@ console.log(setArr)
 
 
 newTree.insert(2)
-newTree.delete(25)
+newTree.delete(8)
 
 //Make it visual
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -166,5 +187,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
       prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
-  console.log(newTree)
-  console.log(prettyPrint(newTree.root))
+  
+  
+ 
+   console.log(newTree)
+
+   console.log(prettyPrint(newTree.root))
