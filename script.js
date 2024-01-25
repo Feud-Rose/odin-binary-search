@@ -149,12 +149,155 @@ class Tree{
     return this.getSmallestOfRight(root.left, root)
   }
 
-  deleteNode(root){
-  
+
+  find(value){
+    let result = this.findRecursion(value, this.root)
+    console.log(result)
+    return result
   }
 
+  findRecursion(value, node){
+    
+    if(!node) return false
+    
+    else if(node.data === value) return node
+
+    else if(value < node.data) return this.findRecursion(value, node.left)
+
+    else if(value > node.data) return this.findRecursion(value, node.right)
+  }
+
+
+  levelOrder = function(root=this.root,callBack=null) {
+    
+    if(root === null){
+      return
+    }
+
+    let result = []
+   
+    function levelRecursive(node, level){
+         if(!node) return 
+
+         if (result[level]){
+             result[level].push(node.data)
+         } else {
+             result[level] = [node.data]
+         }
+
+         levelRecursive(node.left, level+1)
+         levelRecursive(node.right, level+1)
+    }
+
+    levelRecursive(root, 0)
+
+    if (typeof callBack == 'function'){
+    return
+    }
+    return result
+    }
+
+    inOrder(root=this.root, callBack=null){
+      if(root === null){
+        return
+      }
+      
+
+    let result = []
+   
+    function inOrderRecursive(root, result){
+      if (root) {
+        inOrderRecursive(root.left, result);
+
+        result.push(root.data)
+
+        inOrderRecursive(root.right, result);
+      }
+    }
+
+    inOrderRecursive(root, result)
+      if (typeof callBack == 'function'){
+      return
+      }
+      return result
+    } 
+
+
+
+    preOrder(root=this.root, callBack=null){
+      if(root === null){
+        return
+      }
+          let result = []
+   
+    function preOrderRecursive(root, result){
+      if (root) {
+        
+        result.push(root.data)
+
+        preOrderRecursive(root.left, result);
+
+        preOrderRecursive(root.right, result);
+      }
+    }
+
+    preOrderRecursive(root, result)
+
+      if (typeof callBack == 'function'){
+      return
+      }
+      return result
+    } 
+
+
+
+
+    postOrder(root=this.root, callBack=null){
+      if(root === null){
+        return
+      }
+      function postOrderRecursive(root){
+      if (root) {
+        
+        postOrderRecursive(root.left);
+
+        postOrderRecursive(root.right);
+        
+        console.log((root.data + ""))
+      }
+     }
+
+     postOrderRecursive(root)
+
+      if (typeof callBack == 'function'){
+      return
+      }
+      
+    }
+
+
+
+
+
+
+  print() {   ////////Purely visual
+      const prettyPrint = (node, prefix = "", isLeft = true) => {
+      if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+};
+return prettyPrint(this.root)
 }
 
+}
+////////////////
 
 
 function mergeSort(arr) {
@@ -209,24 +352,12 @@ console.log(setArr)
 
 newTree.insert(11)
 newTree.insert(9)
-newTree.delete(10)
+console.log(newTree.find(10))
+console.log(newTree.levelOrder())
 
-//Make it visual
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-      return;
-    }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-  };
-  
-  
+
  
-   console.log(newTree)
-
-   console.log(prettyPrint(newTree.root))
+console.log(newTree.inOrder())
+console.log(newTree.preOrder())
+console.log(newTree.postOrder())
+console.log(newTree.print())
