@@ -79,12 +79,43 @@ class Tree{
     console.log(this.root.data)
     console.log(root.data)
     if(root.data === value) {
-      if(this.root.data) {
+      if(this.root.data === value) {
        let newTop = this.getSmallestOfRight(root.right, root)
        this.root.data = newTop.data
        return console.log(this.root)
       }
-      return console.log("delete me")//add delete func
+      else{
+        console.log(prev.right)
+        console.log(root.right)
+        if(!root.left && !root.right){
+          console.log("double null")
+          return (root.data < prev.data) ? prev.left = null : prev.right = null
+        }
+        else if(!root.left && root.right){
+          return prev.right = root.right 
+        }
+        else if(!root.right && root.left){
+          return prev.right = root.left
+        }
+        else{
+          
+          let newRoot = this.getSmallestOfRight(root.right, root)
+          console.log(newRoot)
+          console.log(prev.data)
+          console.log(root.data)
+          if(root.data > prev.data){ 
+            newRoot.left = root.left
+            newRoot.right = root.right
+            prev.right = newRoot
+          }
+          else{ 
+            prev.left = newRoot
+            newRoot.left = root.left
+            newRoot.right = root.right
+          }
+
+        }
+      }
     }
     else if(value < root.data){
 
@@ -100,6 +131,7 @@ class Tree{
     }
   }  
 
+
   //get lowest value on right side for replacing Top root
   getSmallestOfRight(root, prev){
     console.log(root)
@@ -107,6 +139,10 @@ class Tree{
       if(root.right && prev){
         console.log(prev)
         prev.left = root.right
+      }
+      else if(!root.right && prev){
+        console.log(prev)
+        prev.left = null
       }
       return root
     }
@@ -155,7 +191,7 @@ function removeDuplicates(arr) {
 }
 
 //Make test array
-const sortMe = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+const sortMe = [1, 7, 4, 23, 8, 12, 4, 3, 5, 7, 10, 67, 6345, 324]
 let sorted = mergeSort(sortMe)
 console.log(sorted)
 let setArr = removeDuplicates(sorted) 
@@ -171,8 +207,9 @@ console.log(setArr)
 
 
 
-newTree.insert(2)
-newTree.delete(8)
+newTree.insert(11)
+newTree.insert(9)
+newTree.delete(10)
 
 //Make it visual
 const prettyPrint = (node, prefix = "", isLeft = true) => {
