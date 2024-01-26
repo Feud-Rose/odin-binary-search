@@ -275,9 +275,84 @@ class Tree{
       
     }
 
+  height(root=this.root){
+    console.log(root)
+    function heightRecursive(root, n){
+      if(!root) return n -1;
+      let left = heightRecursive(root.left, n + 1)
+      let right = heightRecursive(root.right, n + 1)
+      return left > right ? left : right
+
+    }
+   return heightRecursive(root, 0)
+  }
+
+  depth(node){
+    if(!node) return null;
+    let root = this.root
+
+    function depthRecursive(root ,node, depth){
+    console.log(root.data)
+    console.log(node.data)
+    
+
+    if(!node) return false
+    
+    else if(root === node) return depth
+
+    else if(root.data > node.data) return depthRecursive(root.left, node, depth+1)
+
+    else if(root.data < node.data) return depthRecursive(root.right, node, depth+1)
+
+    }
+
+    return depthRecursive(root, node, 0)
+  }
 
 
+  isBalanced(root=this.root){
 
+    function balancedRecursive(root, n){
+      if(!root) return n -1;
+      let left = balancedRecursive(root.left, n + 1)
+      let right = balancedRecursive(root.right, n + 1)
+      return left > right ? left : right
+    }
+    
+  let leftDepth = balancedRecursive(root.left, 0,)
+  let rightDepth = balancedRecursive(root.right, 0)
+
+  console.log(leftDepth)
+  console.log(rightDepth)
+
+  function checkDifference(leftDepth,rightDepth){
+    if(leftDepth === rightDepth) return true;
+
+    else if(leftDepth > rightDepth){
+      let difference = leftDepth - rightDepth
+      if(difference === 1 || difference === 0){
+        return true
+      }
+      else return false
+    }
+ 
+    else {
+      let difference = rightDepth - leftDepth
+      if(difference === 1 || difference === 0){
+        return true
+      }
+      else return false
+    }
+  }
+  return checkDifference(leftDepth,rightDepth)
+  }
+
+  rebalance(){
+    let newArr = this.inOrder()
+    console.log(newArr)
+
+    return this.buildTree(newArr)
+  }
 
 
   print() {   ////////Purely visual
@@ -352,7 +427,8 @@ console.log(setArr)
 
 newTree.insert(11)
 newTree.insert(9)
-console.log(newTree.find(10))
+let nodeTest = newTree.find(11)
+console.log(nodeTest)
 console.log(newTree.levelOrder())
 
 
@@ -360,4 +436,8 @@ console.log(newTree.levelOrder())
 console.log(newTree.inOrder())
 console.log(newTree.preOrder())
 console.log(newTree.postOrder())
+console.log(newTree.height())
+console.log(newTree.depth(nodeTest))
+console.log(newTree.isBalanced())
+newTree.rebalance()
 console.log(newTree.print())
